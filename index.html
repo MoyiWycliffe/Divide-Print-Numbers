@@ -99,7 +99,9 @@
     function printDivision() {
       const start = parseFloat(document.getElementById('startNum').value);
       const end = parseFloat(document.getElementById('endNum').value);
-      const decimals = parseInt(document.getElementById('decimals').value) || 2;
+      const rawDecimals = parseInt(document.getElementById('decimals').value);
+      const decimals = Math.min(Math.max(rawDecimals || 2, 0), 20);
+
       const outputDiv = document.getElementById('output');
 
       if (isNaN(start) || isNaN(end)) {

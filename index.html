@@ -89,6 +89,7 @@
 
     <button onclick="printDivision()">Calculate</button>
     <button onclick="clearOutput()">Clear</button>
+    <button id="copy" onclick="copyResults()">Copy</button>
 
     <div id="output">Enter values and click "Calculate".</div>
   </div>
@@ -132,6 +133,17 @@
       document.getElementById('output').textContent = '';
       document.getElementById('startNum').value = '';
       document.getElementById('endNum').value = '';
+    }
+
+    function copyResults(){
+        const outputDiv = document.getElementById('output');
+        const textToCopy = outputDiv.textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Results copied to clipboard!");
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            alert("Failed to copy results.");
+        });
     }
   </script>
 </body>

@@ -1,155 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://manteads.com/media/favicon.ico" type="image/png" />
-  <title>Range Division Calculator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 450px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #aeaef2;
-      border-radius: 10px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="https://manteads.com/media/favicon.ico" type="image/png" />
+<title>Range Division Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #aeaef2, #d9d9ff);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
 
-    .container {
-      text-align: center;
-      background: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    }
+  .container {
+    text-align: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    max-width: 450px;
+    width: 100%;
+    transition: transform 0.3s;
+  }
 
-    input[type="number"] {
-      width: 100px;
-      padding: 8px;
-      margin: 10px 5px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+  .container:hover {
+    transform: translateY(-5px);
+  }
 
-    button {
-      padding: 10px 20px;
-      margin: 10px 5px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
+  h2 {
+    color: #4b00ff;
+    margin-bottom: 20px;
+  }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+  input[type="number"] {
+    width: 100px;
+    padding: 10px;
+    margin: 8px 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
 
-    #output {
-      margin-top: 20px;
-      white-space: pre-wrap;
-      background: #fefefe;
-      padding: 15px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      min-height: 80px;
-      font-size: 1rem;
-      text-align: left;
-    }
+  button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    @media (max-width: 500px) {
-      body {
-        margin: 20px;
-        padding: 10px;
-      }
-      .container {
-        padding: 15px;
-      }
-      input[type="number"], button {
-        width: 80%;
-      }
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  #calculateBtn { background-color: #4b00ff; color: #fff; }
+  #calculateBtn:hover { background-color: #3500b3; }
+
+  #clearBtn { background-color: #ff4b4b; color: #fff; }
+  #clearBtn:hover { background-color: #b30000; }
+
+  #copy { background-color: #00b34b; color: #fff; }
+  #copy:hover { background-color: #00802b; }
+
+  #output {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    background: #f5f5ff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    min-height: 100px;
+    text-align: left;
+    font-size: 1rem;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 500px) {
+    input[type="number"], button {
+      width: 80%;
+      margin: 8px 0;
     }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="container">
     <h2>Range Division Calculator</h2>
 
     <label for="startNum">Start:</label>
-    <input type="number" id="startNum" min="1" placeholder="Start" />
-    <br />
+    <input type="number" id="startNum" min="1" placeholder="Start" /><br>
 
     <label for="endNum">End:</label>
-    <input type="number" id="endNum" placeholder="End" />
-    <br />
+    <input type="number" id="endNum" placeholder="End" /><br>
 
-    <label for="decimals">No. of Decimals</label>
-    <input type="number" id="decimals" placeholder="Decimals"/> </br>
+    <label for="decimals">No. of Decimals:</label>
+    <input type="number" id="decimals" placeholder="Decimals" /><br>
 
-    <button onclick="printDivision()">Calculate</button>
-    <button onclick="clearOutput()">Clear</button>
+    <button id="calculateBtn" onclick="printDivision()">Calculate</button>
+    <button id="clearBtn" onclick="clearOutput()">Clear</button>
     <button id="copy" onclick="copyResults()">Copy</button>
 
     <div id="output">Enter values and click "Calculate".</div>
   </div>
 
-  <script>
-    function printDivision() {
-      const start = parseFloat(document.getElementById('startNum').value);
-      const end = parseFloat(document.getElementById('endNum').value);
-      const rawDecimals = parseInt(document.getElementById('decimals').value);
-      const decimals = Math.min(Math.max(rawDecimals || 2, 0), 20);
+<script>
+function printDivision() {
+  const start = parseFloat(document.getElementById('startNum').value);
+  const end = parseFloat(document.getElementById('endNum').value);
+  const rawDecimals = parseInt(document.getElementById('decimals').value);
+  const decimals = Math.min(Math.max(rawDecimals || 2, 0), 20);
+  const outputDiv = document.getElementById('output');
 
-      const outputDiv = document.getElementById('output');
+  if (isNaN(start) || isNaN(end)) {
+    outputDiv.textContent = "⚠️ Please enter valid numbers.";
+    return;
+  }
+  if (start === 0) {
+    outputDiv.textContent = "⚠️ Division by zero is not allowed.";
+    return;
+  }
 
-      if (isNaN(start) || isNaN(end)) {
-        outputDiv.textContent = "⚠️ Please enter valid numbers.";
-        return;
-      }
+  const min = Math.min(start, end);
+  const max = Math.max(start, end);
 
-      if (start === 0) {
-        outputDiv.textContent = "⚠️ Division by zero is not allowed (start number cannot be 0).";
-        return;
-      }
-
-      let result = "✅ Numbers in the range:\n";
-      const min = Math.min(start, end);
-      const max = Math.max(start, end);
-
-      if (!Number.isInteger(min) || !Number.isInteger(max)) {
-        result += `→ ${min}, ${max}`;
-      } else {
-        for (let i = min; i <= max; i++) {
-          result += i + " ";
-        }
-      }
-
-      let divisionResult = (end / start).toFixed(decimals);
-      result += `\n\n🧮 ${end} ÷ ${start} = ${divisionResult}`;
-
-      outputDiv.textContent = result;
+  let result = "✅ Numbers in the range:\n";
+  if (!Number.isInteger(min) || !Number.isInteger(max)) {
+    result += `→ ${min}, ${max}`;
+  } else {
+    for (let i = min; i <= max; i++) {
+      result += i + " ";
     }
+  }
 
-    function clearOutput() {
-      document.getElementById('output').textContent = '';
-      document.getElementById('startNum').value = '';
-      document.getElementById('endNum').value = '';
-      document.getElementById('decimals').value = '';
+  let divisionResult = (end / start).toFixed(decimals);
+  result += `\n\n🧮 ${end} ÷ ${start} = ${divisionResult}`;
 
-    }
+  outputDiv.textContent = result;
+}
 
-    function copyResults(){
-        const outputDiv = document.getElementById('output');
-        const textToCopy = outputDiv.textContent;
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert("Results copied to clipboard!");
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-            alert("Failed to copy results.");
-        });
-    }
-  </script>
+function clearOutput() {
+  document.getElementById('output').textContent = '';
+  document.getElementById('startNum').value = '';
+  document.getElementById('endNum').value = '';
+  document.getElementById('decimals').value = '';
+}
+
+function copyResults() {
+  const outputDiv = document.getElementById('output');
+  const textToCopy = outputDiv.textContent;
+  if(textToCopy.trim() === '') { alert("Nothing to copy!"); return; }
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert("Results copied to clipboard!");
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+    alert("Failed to copy results.");
+  });
+}
+</script>
 </body>
 </html>
